@@ -13,7 +13,7 @@ const state = {
   registrations: [], // confirmed by the server: [{ themeId, themeTitle, members: [] }]
   pending: {}, // optimistic, waiting for the server: { themeId: [members] }
   drafts: {}, // names typed into a form: { themeId: [..] }
-  students: [], // allowed names from settings.json, sorted
+  students: [], // allowed names, loaded from the STUDENTS sheet
   openFormId: null, // theme id whose form is open
   expanded: new Set(), // taken themes whose team list is shown
   refreshing: false,
@@ -151,9 +151,20 @@ async function request(options) {
     });
     const data = await res.json();
     if (!data.ok) throw new ServerError(data.error || "Eroare necunoscută.");
-    return data.registrations || [];
+    return data;
   } finally {
     clearTimeout(timeout);
+  }
+}
+
+// The server sends both the registrations and the student list
+// (the names live only in the Google Sheet, not in the site's files).
+function applyServerData(data) {
+  state.registrations = data.registrations || [];
+  if (Array.isArray(data.students)) {
+    state.students = [
+      ...new Set(data.students.map(normalizeName).filter(Boolean)),
+    ].sort((x, y) => x.localeCompare(y, "ro"));
   }
 }
 
@@ -489,7 +500,11 @@ function buildCombo(theme, i, draft) {
     }
   }
 
-  input.addEventListener("focus", show);
+  // Open the list only when the student interacts with the field,
+  // not when it just receives the cursor (e.g. right after "Alege").
+  input.addEventListener("mousedown", () => {
+    if (list.hidden) show();
+  });
   input.addEventListener("input", () => {
     draft[i] = input.value;
     wrap.classList.remove("invalid");
@@ -588,7 +603,7 @@ async function handleSubmit(theme) {
   });
 
   try {
-    state.registrations = await postRegistration(theme, members);
+    applyServerData(await postRegistration(theme, members));
     succeed();
   } catch (err) {
     if (err instanceof ServerError) {
@@ -596,7 +611,7 @@ async function handleSubmit(theme) {
     } else {
       // The request may have been saved even if the response got lost - check.
       try {
-        state.registrations = await fetchRegistrations();
+        applyServerData(await fetchRegistrations());
         const reg = registrationFor(theme.id);
         if (reg && sameTeam(reg.members, members)) succeed();
         else if (reg)
@@ -643,9 +658,16 @@ async function refresh({ silent = false } = {}) {
   if (!state.loaded) render();
 
   try {
-    state.registrations = await fetchRegistrations();
+    applyServerData(await fetchRegistrations());
     state.loaded = true;
-    if (state.students.length) els.banner.hidden = true;
+    if (state.students.length) {
+      els.banner.hidden = true;
+    } else {
+      showBanner(
+        'Lista studenților este goală. Adăugați numele în foaia "STUDENTS" din Google Sheet.',
+        "error",
+      );
+    }
     saveCache();
     stampUpdated();
 
@@ -696,11 +718,6 @@ async function init() {
   }
 
   state.settings.maxMembers = Number(state.settings.maxMembers) || 3;
-  state.students = [
-    ...new Set(
-      (state.settings.students || []).map(normalizeName).filter(Boolean),
-    ),
-  ].sort((x, y) => x.localeCompare(y, "ro"));
   els.maxMembers.textContent = state.settings.maxMembers;
 
   if (!backendConfigured()) {
@@ -710,13 +727,6 @@ async function init() {
       "info",
     );
     return;
-  }
-
-  if (!state.students.length) {
-    showBanner(
-      'Lista studenților este goală. Adăugați numele în "students" din settings.json.',
-      "error",
-    );
   }
 
   // Show the last known state instantly, then update from the server.
