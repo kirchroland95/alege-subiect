@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cercetări operaționale</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header class="page-header">
+    <div class="wrap">
+      <h1>Alegerea Temelor: Cercetări Operaționale</h1>
+      <p class="subtitle">
+        Alegeți o temă pentru echipa voastră (maxim <span id="maxMembers">3</span> persoane).
+        După ce o echipă se înscrie, tema devine indisponibilă pentru ceilalți.
+      </p>
+      <div class="toolbar">
+        <span id="summary" class="summary">Se încarcă…</span>
+        <button id="refreshBtn" class="btn btn-ghost" type="button">Reîmprospătează</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="banner" class="banner" hidden></div>
+    <ul id="themeList" class="theme-list" aria-live="polite"></ul>
+  </main>
+
+  <footer class="wrap footer">
+    <span id="lastUpdated"></span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
