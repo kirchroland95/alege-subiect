@@ -1,0 +1,76 @@
+{
+  "scriptUrl": "https://script.google.com/macros/s/AKfycbwKm7RWWVIojsBu1tjPLRV-UhXxnmyR0tsWUJtGTZV9F79P9oSwdpPhjVO05uBilG1Ccw/exec",
+  "maxMembers": 3,
+  "themes": [
+    {
+      "id": "1",
+      "title": "Linear Programming Approach: Optimization of Profit and Land Resource",
+      "file": "Teme/Tema 1.pdf"
+    },
+    {
+      "id": "2",
+      "title": "Practical Application of Linear Programming Technique in Textile Spinning Industry",
+      "file": "Teme/Tema 2.pdf"
+    },
+    {
+      "id": "3",
+      "title": "Optimization of Sandal Production Using Linear Programming",
+      "file": "Teme/Tema 3.pdf"
+    },
+    {
+      "id": "4",
+      "title": "Application of Linear Programming for Profit Maximization in Vegas Restaurant and Bakery Using Simplex Method",
+      "file": "Teme/Tema 4.pdf"
+    },
+    {
+      "id": "5",
+      "title": "Application of Linear Programming on the Maximum-Profit of Milk Tea Store",
+      "file": "Teme/Tema 5.pdf"
+    },
+    {
+      "id": "6",
+      "title": "Linear Programming for Profit Maximization of Agricultural Stock",
+      "file": "Teme/Tema 6.pdf"
+    },
+    {
+      "id": "7",
+      "title": "A Linear Programming Approach to Optimize the Storage Capacity",
+      "file": "Teme/Tema 7.pdf"
+    },
+    {
+      "id": "8",
+      "title": "Application of Linear Programming for Cost Minimization of Fish Feed",
+      "file": "Teme/Tema 8.pdf"
+    },
+    {
+      "id": "9",
+      "title": "Application of Linear Programming for Profit Maximization: A Case Study of a Cookies Factory in Bangladesh",
+      "file": "Teme/Tema 9.pdf"
+    },
+    {
+      "id": "10",
+      "title": "Application of Linear Programming on a Transportation Problem",
+      "file": "Teme/Tema 10.pdf"
+    },
+    {
+      "id": "11",
+      "title": "Study on Allocation of Production Resources for an Optimal Profit Making",
+      "file": "Teme/Tema 11.pdf"
+    },
+    {
+      "id": "13",
+      "title": "Application of Linear Programming for Optimal Use of Raw Materials in Bakery",
+      "file": "Teme/Tema 13.pdf"
+    },
+    {
+      "id": "14",
+      "title": "Application of Linear Programming for Optimal Investments in Software Company",
+      "file": "Teme/Tema 14.pdf"
+    },
+    {
+      "id": "15",
+      "title": "Practical Application of Linear Programming Technique in Textile Spinning Industry",
+      "file": "Teme/Tema 15.pdf"
+    }
+  ]
+}
