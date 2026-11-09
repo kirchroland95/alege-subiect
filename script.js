@@ -195,23 +195,32 @@ function render() {
 
   els.list.innerHTML = "";
   let freeCount = 0;
+  let presentedCount = 0;
 
   themes.forEach((theme) => {
     const reg = registrationFor(theme.id);
     const pendingMembers = !reg ? state.pending[theme.id] : null;
     const status = reg ? "taken" : pendingMembers ? "pending" : "available";
     if (status === "available") freeCount++;
+    // Set by the teacher in the "Prezentat" column of the sheet.
+    const presented = Boolean(reg && reg.presented);
+    if (presented) presentedCount++;
 
-    const item = el("li", { class: "theme " + status });
+    const item = el("li", {
+      class: "theme " + status + (presented ? " presented" : ""),
+    });
 
-    const statusLabel = {
-      taken: "Ocupată",
-      pending: "Se salvează…",
-      available: "Disponibilă",
-    }[status];
+    const statusLabel = presented
+      ? "A prezentat deja"
+      : {
+          taken: "Ocupată",
+          pending: "Se salvează…",
+          available: "Disponibilă",
+        }[status];
     const meta = el("div", { class: "theme-meta" }, [
-      el("span", { class: "status " + status }, [
+      el("span", { class: "status " + (presented ? "presented" : status) }, [
         status === "pending" ? el("span", { class: "spinner small" }) : null,
+        presented ? el("span", { class: "check", text: "✓" }) : null,
         document.createTextNode(statusLabel),
       ]),
       theme.file
@@ -295,7 +304,8 @@ function render() {
   });
 
   const suffix = state.refreshing && !state.loaded ? " (se actualizează…)" : "";
-  els.summary.textContent = `${freeCount} din ${themes.length} teme disponibile${suffix}`;
+  const presentedText = presentedCount ? ` · ${presentedCount} prezentate` : "";
+  els.summary.textContent = `${freeCount} din ${themes.length} teme disponibile${presentedText}${suffix}`;
 
   // Keep the cursor where it was after a background refresh.
   if (focusKey) {

@@ -11,6 +11,8 @@
   --taken-bg: #13151a;
   --taken-text: #5f6673;
   --taken-num: #3a3f4a;
+  --presented: #b79cff;
+  --presented-bg: #241d3d;
   --members-bg: #1c1f27;
   --members-text: #b4bac5;
   --form-bg: #14171d;
@@ -538,4 +540,31 @@ body {
 .option-note {
   font-size: 0.78rem;
   font-style: italic;
+}
+
+/* Teams that already presented (set from the "Prezentat" column) */
+.theme.presented {
+  border-color: #3d2f63;
+  border-left: 4px solid var(--presented);
+}
+.theme.presented .theme-num {
+  background: var(--presented-bg);
+  color: var(--presented);
+}
+.theme.presented .theme-title {
+  text-decoration: none;
+  color: var(--muted);
+}
+.status.presented {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--presented-bg);
+  color: var(--presented);
+}
+.status.presented .check {
+  font-size: 0.85rem;
+  line-height: 1;
 }
