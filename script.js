@@ -336,7 +336,7 @@ function buildForm(theme, maxMembers) {
     },
     [
       el("p", {
-        text: `Căutați și selectați din listă numele membrilor echipei (între 1 și ${maxMembers}). Înscrierea nu poate fi anulată din pagină.`,
+        text: `Căutați și selectați din listă numele membrilor echipei (între 2 și ${maxMembers}). Înscrierea nu poate fi anulată din pagină.`,
       }),
       fields,
       el("div", { class: "form-actions" }, [
@@ -405,7 +405,9 @@ function buildCombo(theme, i, draft) {
     placeholder:
       i === 0
         ? "Membrul 1 – căutați numele (obligatoriu)"
-        : `Membrul ${i + 1} – căutați numele (opțional)`,
+        : i === 1
+          ? "Membrul 2 – căutați numele (obligatoriu)"
+          : `Membrul ${i + 1} – căutați numele (opțional)`,
   });
   input.value = draft[i] || "";
 
@@ -584,8 +586,13 @@ async function handleSubmit(theme) {
   }
   const members = typed.map(matchStudent);
 
-  if (members.length === 0) {
-    toast("Introduceți cel puțin un membru al echipei.", "error");
+  const minMembers =
+    Number(state.settings && state.settings.minMembers) || 2;
+  if (members.length < minMembers) {
+    toast(
+      `O echipă trebuie să aibă cel puțin ${minMembers} membri.`,
+      "error",
+    );
     return;
   }
   const lower = members.map((m) => m.toLowerCase());
@@ -728,6 +735,8 @@ async function init() {
   }
 
   state.settings.maxMembers = Number(state.settings.maxMembers) || 3;
+  state.settings.minMembers = Number(state.settings.minMembers) || 2;
+  if (state.settings.minMembers < 2) state.settings.minMembers = 2;
   els.maxMembers.textContent = state.settings.maxMembers;
 
   if (!backendConfigured()) {

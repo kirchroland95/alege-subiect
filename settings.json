@@ -1,6 +1,7 @@
 {
   "scriptUrl": "https://script.google.com/macros/s/AKfycbwKm7RWWVIojsBu1tjPLRV-UhXxnmyR0tsWUJtGTZV9F79P9oSwdpPhjVO05uBilG1Ccw/exec",
   "maxMembers": 3,
+  "minMembers": 2,
   "themes": [
     {
       "id": "1",
